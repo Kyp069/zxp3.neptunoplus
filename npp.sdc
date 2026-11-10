@@ -1,0 +1,38 @@
+derive_pll_clocks
+derive_clock_uncertainty
+
+create_clock -name spiCk -period 41.666 [get_ports spiCk]
+create_clock -name midiCk -period 32000 [get_registers serial_packer:midi_packer|serial_strobe_out]
+create_clock -name clock50 -period 20.000 [get_ports clock50]
+
+set_clock_groups -asynchronous -group [get_clocks spiCk]
+set_clock_groups -asynchronous -group [get_clocks midiCk]
+set_clock_groups -asynchronous -group [get_clocks clock50]
+set_clock_groups -asynchronous -group [get_clocks pll|altpll_component|auto_generated|pll1|clk[0]]
+set_clock_groups -asynchronous -group [get_clocks pll1|altpll_component|auto_generated|pll1|clk[0]]
+
+set_multicycle_path -to [get_keepers {*|u765|i_rpm_time*}] -setup 8
+set_multicycle_path -to [get_keepers {*|u765|i_rpm_time*}] -hold 7
+
+set t80 [get_keepers {zxp3|cpu|Cpu|*}]
+set_multicycle_path -from $t80 -to $t80 -setup 2
+set_multicycle_path -from $t80 -to $t80 -hold 1
+
+set_false_path -to   led*
+set_false_path -to   rgb*
+set_false_path -to   sync*
+set_false_path -from tape
+set_false_path -to   i2s*
+set_false_path -to   midi
+set_false_path -from midi*
+set_false_path -to   joy*
+set_false_path -from joy*
+set_false_path -to   mbjoy*
+set_false_path -from mbjoy*
+set_false_path -to   dram*
+set_false_path -from dram*
+set_false_path -from spiSs1
+set_false_path -from spiSs2
+set_false_path -from spiSs3
+set_false_path -from spiMosi
+set_false_path -to   spiMiso

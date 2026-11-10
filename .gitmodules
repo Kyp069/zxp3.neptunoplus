@@ -1,0 +1,6 @@
+[submodule "zxp3"]
+	path = zxp3
+	url = https://github.com/Kyp069/zxp3.git
+[submodule "mist"]
+	path = mist
+	url = https://github.com/mist-devel/mist-modules.git
