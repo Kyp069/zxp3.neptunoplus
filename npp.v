@@ -64,6 +64,7 @@ module npp
 	reg[3:0] ce;
 	always @(negedge clock, negedge power) if(!power) ce <= 1'd0; else ce <= ce+1'd1;
 
+	wire ne14M = ce[1:0] == 3;
 	wire ne7M0 = ce[2:0] == 7;
 	wire pe7M0 = ce[2:0] == 3;
 	wire ne3M5 = ce[3:0] == 15;
@@ -140,6 +141,8 @@ module npp
 	mist #(.RGBW(8)) mist
 	(
 		.clock  (clock  ),
+		.ne14M  (ne14M  ),
+		.ne7M0  (ne7M0  ),
 		.power  (power  ),
 		.spiCk  (spiCk  ),
 		.spiSs1 (spiSs1 ),
